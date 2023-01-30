@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div id="waveform"></div>
+<script>
+    const wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: 'violet',
+        progressColor: 'purple'
+    });
+    wavesurfer.load('static/temp/recording.mp3');
+</script>
+
+{% endblock %}

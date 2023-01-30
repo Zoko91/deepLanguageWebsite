@@ -1,12 +1,28 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div style="color: white;
-	text-align: center;
-	display: flex;
-  	align-items: center;
-  	justify-content: center;
-  	height: 90vh;">
-    TEST
+
+<div style="text-align: center; color: white; margin-top: 30vh">
+    <h1 id="typewriter1"></h1>
+    <h3 id="typewriter2"></h3>
 </div>
+
+<button id="record-button" class="button-30"
+        style="position: absolute;top: 60%;left: 50%;transform: translate(-50%, -50%);width: 15vw;height: 50px">Magic
+    button
+</button>
+<script>
+    let typed1 = new Typed('#typewriter1', {
+        strings: ['Welcome to DeepLanguage !'],
+        typeSpeed: 50,
+        showCursor: false
+    });
+
+    let typed2 = new Typed('#typewriter2', {
+        strings: ['You have 5 seconds to record yourself once you press the magic button'],
+        typeSpeed: 40,
+        startDelay: 3000,
+        showCursor: false
+    });
+</script>
 {% endblock %}
