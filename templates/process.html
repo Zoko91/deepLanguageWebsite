@@ -2,14 +2,94 @@
 
 {% block body %}
 
-<div id="waveform"></div>
-<script>
-    const wavesurfer = WaveSurfer.create({
-        container: '#waveform',
-        waveColor: 'violet',
-        progressColor: 'purple'
-    });
-    wavesurfer.load('static/temp/recording.mp3');
-</script>
+<div style="text-align: center; color: white; margin-top: 30vh">
+    <h1 style="text-decoration: underline">Results:</h1>
+    <h3>The language of the audio file is: {{language}} with {{probability}} of probability.</h3>
+</div>
+<div style="justify-content: center;display:flex;">
+    <button onclick="window.location=URLHome;" class="custom-btn btn-12"><span>Click!</span><span>Want to retry?</span></button>
+</div>
 
+
+<style>
+
+button {
+  margin: 20px;
+  outline: none;
+}
+.custom-btn {
+    color: white;
+  width: 130px;
+  height: 40px;
+  padding: 10px 25px;
+  border: 2px solid #ffffff;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.btn-12{
+  position: relative;
+  right: 20px;
+  bottom: 20px;
+  border:none;
+  width: 130px;
+  height: 40px;
+  line-height: 40px;
+  -webkit-perspective: 230px;
+  perspective: 230px;
+}
+.btn-12 span {
+  display: block;
+  position: absolute;
+  width: 130px;
+  height: 40px;
+  border: 2px solid #ffffff;
+  margin:0;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all .35s;
+  transition: all .35s;
+}
+.btn-12 span:nth-child(1) {
+  -webkit-transform: rotateX(90deg);
+  -moz-transform: rotateX(90deg);
+  transform: rotateX(90deg);
+  -webkit-transform-origin: 50% 50% -20px;
+  -moz-transform-origin: 50% 50% -20px;
+  transform-origin: 50% 50% -20px;
+}
+.btn-12 span:nth-child(2) {
+  -webkit-transform: rotateX(0deg);
+  -moz-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+  -webkit-transform-origin: 50% 50% -20px;
+  -moz-transform-origin: 50% 50% -20px;
+  transform-origin: 50% 50% -20px;
+}
+.btn-12:hover span:nth-child(1) {
+  background: #000000;
+  color: #ffffff;
+  -webkit-transform: rotateX(0deg);
+  -moz-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}
+.btn-12:hover span:nth-child(2) {
+  background: #000000;
+  color: #000000;
+  -webkit-transform: rotateX(-90deg);
+  -moz-transform: rotateX(-90deg);
+  transform: rotateX(-90deg);
+}
+
+</style>
+<script>
+    const URLHome = '{{ url_for("index") }}';
+</script>
 {% endblock %}
