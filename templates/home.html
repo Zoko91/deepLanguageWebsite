@@ -3,25 +3,28 @@
 {% block body %}
 
 <div style="text-align: center; color: white; margin-top: 30vh">
-    <h1 id="typewriter1"></h1>
-    <h3 id="typewriter2"></h3>
+    <h1>Welcome to DeepLanguage !</h1>
+    <h3 id="typewriter"></h3>
 </div>
 
 <button id="record-button" class="button-30"
         style="position: absolute;top: 60%;left: 50%;transform: translate(-50%, -50%);width: 15vw;height: 50px">Magic
     button
 </button>
-<script>
-    let typed1 = new Typed('#typewriter1', {
-        strings: ['Welcome to DeepLanguage !'],
-        typeSpeed: 50,
-        showCursor: false
-    });
 
-    let typed2 = new Typed('#typewriter2', {
+<div class="container" id="cont">
+  <div class="loader">
+  </div>
+</div>
+
+
+
+
+
+<script>
+    let typed = new Typed('#typewriter', {
         strings: ['You have 5 seconds to record yourself once you press the magic button'],
-        typeSpeed: 40,
-        startDelay: 3000,
+        typeSpeed: 35,
         showCursor: false
     });
 </script>

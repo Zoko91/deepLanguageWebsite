@@ -1,41 +1,46 @@
 const recordButton = document.getElementById('record-button');
+const containerDiv = document.getElementById('cont');
 let stream;
 
 recordButton.addEventListener('click', async () => {
-  recordButton.style.display = 'none';
 
+    recordButton.style.display = 'none';
+    containerDiv.style.display = 'flex';
 
-  // DEFINE A LOADER HERE
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    const mediaRecorder = new MediaRecorder(stream);
+    const chunks = [];
 
+    mediaRecorder.start();
 
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  const mediaRecorder = new MediaRecorder(stream);
-  const chunks = [];
-
-  mediaRecorder.start();
-
-  setTimeout(() => {
-    mediaRecorder.stop();
-    stream.getTracks().forEach(track => track.stop());
-  }, 5000);
-
-  mediaRecorder.addEventListener('dataavailable', event => {
-    chunks.push(event.data);
-  });
-
-  mediaRecorder.addEventListener('stop', () => {
-    const blob = new Blob(chunks, { type: 'audio/mpeg' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = url;
-    a.download = 'recording.mp3';
-    document.body.appendChild(a);
-    a.click();
     setTimeout(() => {
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    }, 100);
-  });
+        mediaRecorder.stop();
+        stream.getTracks().forEach(track => track.stop());
+        containerDiv.style.display = 'none';
+
+    }, 5000);
+
+    mediaRecorder.addEventListener('dataavailable', event => {
+        chunks.push(event.data);
+    });
+
+    mediaRecorder.addEventListener('stop', () => {
+        const blob = new Blob(chunks, {type: 'audio/mpeg'});
+        const formData = new FormData();
+        formData.append('file', blob, 'recording.mp3');
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                window.location.replace('/process');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
 });
