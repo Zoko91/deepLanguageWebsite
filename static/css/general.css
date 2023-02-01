@@ -73,3 +73,13 @@ body {
     transform: rotate(360deg);
   }
 }
+
+#loader {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    display: none;
+    z-index: 1000;
+    background-color: antiquewhite;
+}
