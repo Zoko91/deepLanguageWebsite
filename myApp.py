@@ -37,7 +37,7 @@ def load_wav_16k_mono(filename):
 
 def preprocess(file_path):
     wav = load_wav_16k_mono(file_path)
-    wav = wav[:80000]
+    wav = wav[16000:96000]
     zero_padding = tf.zeros([80000] - tf.shape(wav), dtype=tf.float32)
     wav = tf.concat([zero_padding, wav], 0)
     wav = wav / tf.math.reduce_max(wav)
@@ -102,8 +102,8 @@ def record_audio():
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
-    RATE = 44100
-    RECORD_SECONDS = 5
+    RATE = 32000
+    RECORD_SECONDS = 6
     WAVE_OUTPUT_FILENAME = "static/temp/recording.wav"
 
     if os.path.exists(WAVE_OUTPUT_FILENAME):
