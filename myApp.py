@@ -9,8 +9,10 @@ import wave
 
 
 app = Flask(__name__)
-model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/model.h5')
-
+# Old model
+# model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/model.h5')
+# New model
+model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/modelNew.h5')
 
 @app.route("/")
 def index():
@@ -83,18 +85,32 @@ def to_wav():
 
 
 def predict(file_path):
+
+    # OLD VERSION
+    # mfccs = extract_mfccs(file_path)
+    # mfccs = tf.expand_dims(mfccs,axis=0)
+    # prediction = model.predict(mfccs)
+    # language_index = tf.argmax(prediction, axis=1).numpy()[0]
+    # # define the mapping of class index to language
+    # language_mapping = {0: 'French', 1: 'English', 2: 'German', 3: 'Spanish'}
+    # # get the predicted language
+    # language = language_mapping[language_index]
+    # # get the probability of the predicted class
+    # language_probability = prediction[0, language_index]
+
+    # NEW VERSION
     mfccs = extract_mfccs(file_path)
-    mfccs = tf.expand_dims(mfccs,axis=0)
+    mfccs = tf.expand_dims(mfccs, axis=0)
     prediction = model.predict(mfccs)
-    language_index = tf.argmax(prediction, axis=1).numpy()[0]
+    # get the index of the predicted class
+    language_index = tf.argmax(prediction, axis=2).numpy()[0][0]
     # define the mapping of class index to language
     language_mapping = {0: 'French', 1: 'English', 2: 'German', 3: 'Spanish'}
     # get the predicted language
     language = language_mapping[language_index]
     # get the probability of the predicted class
-    language_probability = prediction[0, language_index]
-    # print the predicted language and its probability
-    # print(f"The language of the audio file is: {language} with {language_probability * 100:.2f}% of probability.")
+    language_probability = prediction[0][0][language_index]
+
     return language, language_probability
 
 
