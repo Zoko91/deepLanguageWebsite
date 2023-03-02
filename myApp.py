@@ -6,11 +6,14 @@ import tensorflow_io as tfio
 from tensorflow import keras
 import pyaudio
 import wave
+import librosa, librosa.display,librosa.feature
+import numpy as np
 
 
 app = Flask(__name__)
 # New model
-model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/model3.h5')
+# model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/model3.h5')
+model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/workingDirectory/Models/model.h5')
 
 @app.route("/")
 def index():
@@ -82,6 +85,8 @@ def to_wav():
     mp3_audio.export(output_name, format="wav")
 
 
+
+
 def predict(file_path):
 
     # NEW VERSION
@@ -99,6 +104,40 @@ def predict(file_path):
 
     return language, language_probability
 
+
+def preprocessMelCoeff(file_path):
+    # Load audio file
+    wav, sr = librosa.load(file_path, sr=16000) # load audio file with 16kHz sample rate
+    # Pad or truncate the audio file to 5 seconds
+    wav = librosa.util.fix_length(wav,size=80000)
+    # Calculate Mel-frequency spectrogram
+    spect = librosa.feature.melspectrogram(y=wav, sr=sr, n_mels=128)
+    # Convert to log scale (dB). We'll use the peak power as reference.
+    spect = librosa.power_to_db(spect, ref=np.max)
+    # Calculate MFCCs from Mel-frequency spectrogram
+    mfccs = librosa.feature.mfcc(S=spect, n_mfcc=13)
+    return mfccs
+
+
+def predictLibrosa(file_path):
+
+    # NEW VERSION
+    mfccs = preprocessMelCoeff(file_path)
+    # convert the numpy array to a tensorflow tensor
+    mfccs = tf.convert_to_tensor(mfccs, dtype=tf.float32)
+    mfccs = tf.reshape(mfccs, (1, 13, 157, 1))
+    prediction = model.predict(mfccs)
+    print(prediction)
+    # get the index of the predicted class
+    language_index = tf.argmax(prediction, axis=1).numpy()[0]
+    # define the mapping of class index to language
+    language_mapping = {0: 'English', 1: 'French', 2: 'German', 3: 'Spanish'}
+    # get the predicted language
+    language = language_mapping[language_index]
+    # get the probability of the predicted class
+    language_probability = prediction[0][language_index]
+
+    return language, language_probability
 
 def record_audio():
     CHUNK = 1024
@@ -142,7 +181,7 @@ def process():
     current_page = "Results"
     #to_wav()
     file_path = 'static/temp/recording.wav'
-    language, language_probability = predict(file_path)
+    language, language_probability = predictLibrosa(file_path)
     language_probability = round(language_probability * 100, 2)
     return render_template('process.html', current_page=current_page, language=language, probability=language_probability)
 
