@@ -7,7 +7,7 @@ Here is the implementation of the project using a website coded in python (Flask
 
 ###### Join the **environment**
 ```bash
-source path/to/venv/bin/activate
+source venv/bin/activate
 ```
 ###### Leave the **environment**
 
