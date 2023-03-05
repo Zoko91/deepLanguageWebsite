@@ -13,7 +13,7 @@ import numpy as np
 app = Flask(__name__)
 # New model
 # model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/model3.h5')
-model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/workingDirectory/Models/model.h5')
+model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/workingDirectory/Models/model2.h5')
 
 @app.route("/")
 def index():
@@ -144,7 +144,7 @@ def record_audio():
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 32000
-    RECORD_SECONDS = 6
+    RECORD_SECONDS = 5
     WAVE_OUTPUT_FILENAME = "static/temp/recording.wav"
 
     if os.path.exists(WAVE_OUTPUT_FILENAME):

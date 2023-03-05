@@ -13,14 +13,16 @@
 <!--</button>-->
 
 <div id="loader">
-
 </div>
 <form  action="{{ url_for('record') }}" method="post">
       <input id="formClick" style="display:block;position: absolute;top: 60%;left: 50%;transform: translate(-50%, -50%);width: 15vw;height: 50px;text-align: center" class="button-30" type="submit" value="Start Recording">
 </form>
 
 <div class="container" id="cont">
-  <div class="loader">
+  <div class="loader" style="transform: rotate(-90deg);">
+      <svg width="100" height="100">
+      <circle cx="50" cy="50" r="40" stroke="red" stroke-width="2" fill="none" class="path"/>
+    </svg>
   </div>
 </div>
 
