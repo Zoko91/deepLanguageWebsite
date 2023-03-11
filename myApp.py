@@ -13,7 +13,8 @@ import numpy as np
 app = Flask(__name__)
 # New model
 # model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/model3.h5')
-model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/workingDirectory/Models/model2.h5')
+# model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/workingDirectory/Models/model2.h5')
+model = keras.models.load_model('static/temp/model2.h5')
 
 @app.route("/")
 def index():
