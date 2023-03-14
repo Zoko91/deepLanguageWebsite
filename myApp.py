@@ -12,9 +12,8 @@ import numpy as np
 
 app = Flask(__name__)
 # New model
-# model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/model3.h5')
 # model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/workingDirectory/Models/model2.h5')
-model = keras.models.load_model('static/temp/model2.h5')
+model = keras.models.load_model('static/temp/model.h5')
 
 @app.route("/")
 def index():
@@ -183,6 +182,7 @@ def process():
     #to_wav()
     file_path = 'static/temp/recording.wav'
     language, language_probability = predictLibrosa(file_path)
+    # language, language_probability = predict(file_path)
     language_probability = round(language_probability * 100, 2)
     return render_template('process.html', current_page=current_page, language=language, probability=language_probability)
 
