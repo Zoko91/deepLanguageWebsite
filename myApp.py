@@ -10,8 +10,8 @@ import io
 
 app = Flask(__name__)
 # New model
-url = 'https://josephbeasse.fr/model3.h5'
-model = keras.models.load_model(url)
+path = './static/temp/Models/model3.h5'
+model = keras.models.load_model(path)
 
 @app.route("/")
 def index():
