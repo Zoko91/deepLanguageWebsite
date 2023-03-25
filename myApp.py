@@ -7,6 +7,7 @@ import pyaudio
 import wave
 import librosa, librosa.display,librosa.feature
 import numpy as np
+import io
 
 
 app = Flask(__name__)
@@ -27,6 +28,17 @@ def upload():
     # Save the file to the server
     file.save(file_path)
     return redirect('/process')
+
+@app.route('/save_audio', methods=['POST'])
+def save_audio():
+    audio_file = request.files['audio']
+    audio_data = io.BytesIO(audio_file.read())
+    file_path = 'static/temp/recording.webm'
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    sound = AudioSegment.from_file(audio_data, format='webm')
+    sound.export('static/temp/recording.wav', format='wav')
+    return redirect(url_for("process"))
 
 def to_wav():
     file_name = 'static/temp/recording.mp3'
