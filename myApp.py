@@ -3,8 +3,6 @@ import os
 from pydub import AudioSegment
 import tensorflow as tf
 from tensorflow import keras
-import pyaudio
-import wave
 import librosa, librosa.display,librosa.feature
 import numpy as np
 import io
@@ -12,7 +10,8 @@ import io
 
 app = Flask(__name__)
 # New model
-model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/__largeModels/model3.h5')
+url = 'https://josephbeasse.fr/model3.h5'
+model = keras.models.load_model(url)
 
 @app.route("/")
 def index():
