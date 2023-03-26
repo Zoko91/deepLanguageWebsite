@@ -131,3 +131,4 @@ dmypy.json
 .DS_Store
 .idea/
 /static/temp/recording.wav
+/uploads/Models/

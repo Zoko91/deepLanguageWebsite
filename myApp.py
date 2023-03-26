@@ -11,7 +11,7 @@ import numpy as np
 
 app = Flask(__name__)
 # New model
-model = keras.models.load_model('/Users/josephbeasse/Desktop/deepLanguage/Models/__largeModels/model3.h5')
+model = keras.models.load_model('./uploads/Models/model3.h5')
 
 @app.route("/")
 def index():
@@ -21,7 +21,7 @@ def index():
 @app.route('/upload', methods=['GET','POST'])
 def upload():
     file = request.files.get('file')
-    file_path = 'static/temp/' + file.filename
+    file_path = 'uploads/' + file.filename
     if os.path.exists(file_path):
         os.remove(file_path)
     # Save the file to the server
@@ -29,10 +29,10 @@ def upload():
     return redirect('/process')
 
 def to_wav():
-    file_name = 'static/temp/recording.mp3'
+    file_name = 'uploads/recording.mp3'
     # Load the MP3 file using the from_mp3() method
     mp3_audio = AudioSegment.from_mp3(file_name)
-    output_name = 'static/temp/recording.wav'
+    output_name = 'uploads/recording.wav'
     # Save the audio as a WAV file using the export() method
     mp3_audio.export(output_name, format="wav")
 
@@ -77,7 +77,7 @@ def record_audio():
     CHANNELS = 1
     RATE = 32000
     RECORD_SECONDS = 5
-    WAVE_OUTPUT_FILENAME = "static/temp/recording.wav"
+    WAVE_OUTPUT_FILENAME = "uploads/recording.wav"
 
     if os.path.exists(WAVE_OUTPUT_FILENAME):
         os.remove(WAVE_OUTPUT_FILENAME)
@@ -112,7 +112,7 @@ def record_audio():
 def process():
     current_page = "Results"
     #to_wav()
-    file_path = 'static/temp/recording.wav'
+    file_path = 'uploads/recording.wav'
     language, language_probability = predictLibrosa(file_path)
     language_probability = round(language_probability * 100, 2)
     return render_template('process.html', current_page=current_page, language=language, probability=language_probability)
