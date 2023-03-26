@@ -133,3 +133,6 @@ dmypy.json
 /static/temp/recording.wav
 /static/temp/Models/
 /.vscode/
+/uploads/temp/Models/
+/uploads/temp/
+/uploads/Models/

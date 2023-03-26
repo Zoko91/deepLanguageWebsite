@@ -10,7 +10,7 @@ import io
 
 app = Flask(__name__)
 # New model
-path = './static/temp/Models/model3.h5'
+path = './uploads/Models/model3.h5'
 model = keras.models.load_model(path)
 
 @app.route("/")
@@ -23,11 +23,11 @@ def index():
 def save_audio():
     audio_file = request.files['audio']
     audio_data = io.BytesIO(audio_file.read())
-    file_path = 'static/temp/recording.webm'
+    file_path = 'uploads/recording.webm'
     if os.path.exists(file_path):
         os.remove(file_path)
     sound = AudioSegment.from_file(audio_data, format='webm')
-    sound.export('static/temp/recording.wav', format='wav')
+    sound.export('uploads/recording.wav', format='wav')
     return redirect(url_for("process"))
 
 
@@ -70,8 +70,11 @@ def predictLibrosa(file_path):
 def process():
     current_page = "Results"
     #to_wav()
-    file_path = 'static/temp/recording.wav'
+    file_path = 'uploads/recording.wav'
     language, language_probability = predictLibrosa(file_path)
     language_probability = round(language_probability * 100, 2)
     return render_template('process.html', current_page=current_page, language=language, probability=language_probability)
 
+if __name__ == '__main__':
+   app.config['UPLOAD_FOLDER'] = 'uploads'
+   app.run()
