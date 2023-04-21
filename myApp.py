@@ -10,9 +10,9 @@ import numpy as np
 
 
 app = Flask(__name__)
-# New model
-# model = keras.models.load_model('./uploads/Models/model3.h5')
-model = keras.models.load_model('../deepLanguage/Models/__largeModels/RNNmultilayers.h5')
+# Choose a model using:
+model = keras.models.load_model('./uploads/Models/model3.h5')
+# model = keras.models.load_model('../deepLanguage/Models/__largeModels/RNNmultilayers.h5')
 
 @app.route("/")
 def index():
